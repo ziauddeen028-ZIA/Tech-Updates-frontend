@@ -3,14 +3,16 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
+import Navbar from './components/Navbar'
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-  <>
-  <h1 className='bg-red-600 text-white'>INTERVIEW</h1>
-  </>
+    <>
+      <Navbar/>
+    </>
   )
 }
 
