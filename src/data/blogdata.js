@@ -5,6 +5,16 @@ import cyber from '../assets/cyber.png'
 import tech from '../assets/tech.png'
 import web from '../assets/web.png'
 
+
+export const categorise = [
+    "Software Development",
+    "Artificial Intelligence & Machine Learning",
+    "Web and Mobile App Development",
+    "Technology & Innovation",
+    "Cybersecurity",
+    "Cloud Computing",
+    "Industry Insights"];
+
 export const data = [
     {
         id: 1,

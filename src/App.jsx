@@ -1,11 +1,9 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'
-
 import Home from './pages/Home'
+import CategoryListing from './pages/CategoryListing'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 
 function App() {
@@ -13,8 +11,13 @@ function App() {
 
   return (
     <>
-      <Navbar />
-      <Home />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path="/category/:categoryName" element={<CategoryListing />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

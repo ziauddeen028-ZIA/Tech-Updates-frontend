@@ -6,7 +6,7 @@ const TrendingSection = () => {
     const datas = data.filter((item) => item.isTrending);
     return (
         <>
-            <div className='grid grid-cols-4 w-full items-center justify-center px-10'>
+            <div className='grid grid-cols-4 w-full items-center justify-center px-10 pb-20'>
                 {
                     datas.map((item) => (
                         <div key={item.id} className='w-[240px] h-[250px]' >

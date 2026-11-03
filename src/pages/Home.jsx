@@ -2,6 +2,8 @@ import React from 'react'
 import FeaturedArticle from '../components/FeaturedArticle'
 import PopularSidebar from '../components/PopularSidebar'
 import TrendingSection from '../components/TrendingSection'
+import CategorySection from '../components/CategorySection'
+import CategoryListing from './CategoryListing'
 
 const Home = () => {
     return (
@@ -20,8 +22,12 @@ const Home = () => {
                     <PopularSidebar />
                 </div>
             </div>
-            <div>
+            <div className='mb-16 lg:block hidden'>
                 <TrendingSection />
+            </div>
+            <div>
+                <CategorySection/>
+                
             </div>
         </>
     )

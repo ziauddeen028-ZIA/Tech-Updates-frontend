@@ -1,11 +1,12 @@
 import logo from '../assets/logo1.png';
 import { Search } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
-
+    const navigate=useNavigate();
     return (
         <>
             <nav className=' bg-white flex justify-between items-center px-4 sm:px-7 lg:px-12 h-16 lg:h-[76px] border-b sticky top-0 z-20 '>
-                <div className='flex items-center'>
+                <div className='flex items-center' onClick={()=>navigate('/')}>
                     <img src={logo} alt="logo-img" className='w-32 sm:w-40 lg:w-[200px] cursor-pointer' />
                     <h1 className='text-black font-bold text-2xl'>Blog</h1>
                 </div>
