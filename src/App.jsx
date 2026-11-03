@@ -5,6 +5,7 @@ import viteLogo from './assets/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'
 import FeaturedArticle from './components/FeaturedArticle'
+import PopularSidebar from './components/PopularSidebar'
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <>
       <Navbar/>
       <FeaturedArticle/>
+      <PopularSidebar/>
     </>
   )
 }
