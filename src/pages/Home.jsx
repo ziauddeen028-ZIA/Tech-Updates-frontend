@@ -5,6 +5,7 @@ import TrendingSection from '../components/TrendingSection'
 import CategorySection from '../components/CategorySection'
 import CategoryListing from './CategoryListing'
 import SearchResults from './SearchResults'
+import PopularSection from '../components/PopularSection'
 
 const Home = () => {
     return (
@@ -28,6 +29,9 @@ const Home = () => {
             </div>
             <div>
                 <CategorySection/>
+            </div>
+            <div>
+                <PopularSection/>
             </div>
         </>
     )

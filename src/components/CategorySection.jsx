@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 const CategorySection = () => {
     const navigate = useNavigate();
     return (
-        <div className='bg-gray-50 my-14'>
+        <div className='bg-gray-50 my-14 pb-10'>
             <div className='flex flex-col items-center py-14'>
                 <h1 className='text-4xl font-semibold my-5'>Explore Categories</h1>
                 <span className='w-14 h-[2px] bg-red-500'></span>

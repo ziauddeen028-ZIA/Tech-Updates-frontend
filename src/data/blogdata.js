@@ -604,7 +604,7 @@ Employees should understand phishing attacks, suspicious links and safe online p
 Cybersecurity is an ongoing responsibility. Following good security practices helps businesses protect their applications, information and customers.
 `,
         isFeatured: false,
-        isTrending: true,
+        isTrending: false,
         isLatest: true,
         status: "published"
     },

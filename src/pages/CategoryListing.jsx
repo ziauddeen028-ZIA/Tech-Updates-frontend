@@ -11,8 +11,6 @@ const CategoryListing = () => {
     return (
         <>
             <div className='bg-gray-50'>
-
-
                 <div className='sec-navbar flex flex-col lg:flex-row lg:items-center gap-0 lg:gap-8 px-4 sm:px-7 lg:px-12 py-2 bg-white border-b'>
                     <div className='flex items-center justify-between w-full lg:w-auto gap-3 py-3 lg:border-0'>
                         <label >Categories: </label> <select value={selectedCategory}
