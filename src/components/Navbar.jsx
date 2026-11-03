@@ -16,8 +16,8 @@ const Navbar = () => {
 
     return (
         <>
-            <div className='relative'>
-                <nav className=' bg-white flex justify-between items-center px-4 sm:px-7 lg:px-12 h-16 lg:h-[76px] border-b sticky top-0 z-20 '>
+            <div className="relative sticky top-0 z-50">
+                <nav className='bg-white flex justify-between items-center px-4 sm:px-7 lg:px-12 h-16 lg:h-[76px] border-b border-gray-200'>
                     <div className='flex items-center' onClick={() => navigate('/')}>
                         <img src={logo} alt="logo-img" className='w-32 sm:w-40 lg:w-[200px] cursor-pointer' />
                         <h1 className='text-black font-bold text-2xl'>Blog</h1>
