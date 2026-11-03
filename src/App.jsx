@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import CategoryListing from './pages/CategoryListing'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import SearchResults from './pages/SearchResults'
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path="/category/:categoryName" element={<CategoryListing />} />
+          <Route path="/search" element={<SearchResults />} />
         </Routes>
       </BrowserRouter>
     </>

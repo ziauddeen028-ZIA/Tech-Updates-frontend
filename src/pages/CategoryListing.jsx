@@ -38,7 +38,9 @@ const CategoryListing = () => {
                         </select>
                     </div>
                 </div>
-                <div className="text-3xl lg:text-4xl font-normal py-10 px-4 sm:px-7 lg:px-12">{selectedCategory}</div>
+                <div className="text-3xl lg:text-4xl font-normal py-10 px-4 sm:px-7 lg:px-12">
+                    {selectedCategory}
+                </div>
                 <div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20 px-4 sm:px-7 lg:px-12 pb-20">
                         {

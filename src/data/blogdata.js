@@ -167,6 +167,7 @@ AI is not simply a technology for the future. It is already part of everyday lif
 `,
 
         isFeatured: true,
+        isLatest: false,
         isTrending: false,
         status: "published"
     },
@@ -357,6 +358,7 @@ Cloud technology is not just about storing information online. It is about creat
         isFeatured: true,
         isTrending: true,
         isPopular: true,
+        isLatest: true,
         status: "published"
     },
 
@@ -558,6 +560,7 @@ The best development teams combine strong technical knowledge with effective com
         isFeatured: true,
         isTrending: false,
         isPopular: true,
+        isLatest: true,
         status: "published"
     },
 
@@ -602,6 +605,7 @@ Cybersecurity is an ongoing responsibility. Following good security practices he
 `,
         isFeatured: false,
         isTrending: true,
+        isLatest: true,
         status: "published"
     },
 
@@ -650,6 +654,7 @@ Modern web development combines reusable components, responsive layouts, API int
 `,
         isFeatured: false,
         isTrending: true,
+        isLatest: false,
         status: "published"
     },
 
@@ -694,6 +699,7 @@ Emerging technologies will continue to influence businesses and everyday life. U
 `,
         isFeatured: false,
         isTrending: true,
+        isLatest: true,
         status: "published"
     },
 ]

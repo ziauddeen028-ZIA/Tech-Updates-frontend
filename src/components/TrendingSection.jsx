@@ -3,13 +3,13 @@ import { data } from '../data/blogdata';
 import { Timer, Calendar } from "lucide-react";
 
 const TrendingSection = () => {
-    const datas = data.filter((item) => item.isTrending);
+    const datas = data.filter((item) => item.isLatest);
     return (
         <>
-            <div className='grid grid-cols-4 w-full items-center justify-center px-10 pb-20'>
+            <div className='grid grid-cols-4  gap-x-5 gap-y-16 w-full items-center justify-center px-10 pb-20'>
                 {
                     datas.map((item) => (
-                        <div key={item.id} className='w-[240px] h-[250px]' >
+                        <div key={item.id} className='w-full min-w-0' >
 
                             <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
                                 <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
