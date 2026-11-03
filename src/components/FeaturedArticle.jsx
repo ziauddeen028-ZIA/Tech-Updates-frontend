@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Timer, Calendar } from "lucide-react";
 import { data } from '../data/blogdata';
 
 const FeaturedArticle = () => {
-    const datas = data.find((item) => item.id === 1);
+    const featuredData = data.filter((item) => item.isFeatured);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const datas = featuredData[activeIndex];
     return (
         <>
-            <div><span className='text-red-500'>|</span> FEATURED POSTS</div>
+
             <div className='image'>
-                <img src={datas.image} alt="artificial intelligence" className='w-full h-[475px] rounded-2xl object-cover' />
+                <img src={datas.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-[475px] rounded-xl object-fill' />
             </div>
             <div className='details mt-5'>
-                <div className='flex items-center gap-5 mb-3'>
+                <div className='flex items-center lg:gap-5  mb-3'>
                     <h4 className='text-green-700 text-[15px] font-medium'>{datas.category}</h4>
-                    <div className='flex items-center gap-2'>
+                    <div className='flex items-center sm:gap-1 lg:gap-2'>
                         <p > <Timer className='w-4 h-4 text-gray-500' /></p>
                         <p className='text-gray-500 text-[15px]'>{datas.readTime} Mins Read</p>
                     </div>
@@ -29,6 +31,20 @@ const FeaturedArticle = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="flex lg:hidden justify-center gap-2 mt-6 py-20">
+                {featuredData.map((item, index) => (
+                    <button
+                        key={item.id}
+                        onClick={() => setActiveIndex(index)}
+                        className={`w-2 h-2 rounded-full transition-all ${activeIndex === index
+                                ? 'bg-gray-800 w-5'
+                                : 'bg-gray-300'
+                            }`}
+                        aria-label={`Show article ${index + 1}`}
+                    />
+                ))}
             </div>
         </>
     )

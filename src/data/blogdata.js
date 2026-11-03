@@ -1,6 +1,9 @@
 import AI from '../assets/AI.png'
 import software from '../assets/software.png'
 import cloud from '../assets/cloud.png'
+import cyber from '../assets/cyber.png'
+import tech from '../assets/tech.png'
+import web from '../assets/web.png'
 
 export const data = [
     {
@@ -157,6 +160,7 @@ AI is not simply a technology for the future. It is already part of everyday lif
         isTrending: false,
         status: "published"
     },
+
     {
         id: 2,
         title: "Understanding Cloud Computing",
@@ -340,10 +344,12 @@ Understanding cloud computing is valuable for developers, IT professionals and o
 Cloud technology is not just about storing information online. It is about creating the infrastructure that powers today's digital world.
 `,
 
-        isFeatured: false,
+        isFeatured: true,
         isTrending: true,
+        isPopular: true,
         status: "published"
     },
+
     {
         id: 3,
         title: "Modern Software Development Practices",
@@ -539,6 +545,143 @@ By following modern development practices, developers can build applications tha
 The best development teams combine strong technical knowledge with effective communication and a commitment to continuous learning.
 `,
 
+        isFeatured: true,
+        isTrending: false,
+        isPopular: true,
+        status: "published"
+    },
+
+    {
+        id: 4,
+        title: "Cybersecurity Best Practices for Modern Businesses",
+        slug: "cybersecurity-best-practices",
+        description: "Learn essential cybersecurity practices to protect business applications, networks and sensitive information.",
+        image: cyber,
+        category: "Cybersecurity",
+        author: "Priya",
+        publishedAt: "2026-11-03",
+        readTime: 6,
+        content: `
+# Cybersecurity Best Practices for Modern Businesses
+
+Cybersecurity is an important part of every modern business. As organisations depend more on digital applications and online services, protecting sensitive information has become essential.
+
+## 1. Use Strong Passwords
+
+Strong passwords help protect user accounts from unauthorised access.
+
+## 2. Enable Multi-Factor Authentication
+
+Multi-factor authentication adds another layer of security during login.
+
+## 3. Keep Software Updated
+
+Regular updates help fix security vulnerabilities and improve application protection.
+
+## 4. Protect Business Data
+
+Businesses should use encryption, secure backups and appropriate access permissions.
+
+## 5. Train Employees
+
+Employees should understand phishing attacks, suspicious links and safe online practices.
+
+## Conclusion
+
+Cybersecurity is an ongoing responsibility. Following good security practices helps businesses protect their applications, information and customers.
+`,
+        isFeatured: false,
+        isTrending: true,
+        status: "published"
+    },
+
+    {
+        id: 5,
+        title: "Modern Web Development: React and Beyond",
+        slug: "modern-web-development-react",
+        description: "Explore how modern frontend technologies help developers build fast and interactive web applications.",
+        image: web,
+        category: "Web and Mobile App Development",
+        author: "Karthik",
+        publishedAt: "2026-11-03",
+        readTime: 7,
+        content: `
+# Modern Web Development: React and Beyond
+
+Web development continues to evolve with new frameworks, libraries and development tools. Modern frontend technologies help developers create interactive and responsive applications.
+
+## 1. Understanding React
+
+React is a JavaScript library used to build user interfaces using reusable components.
+
+## 2. Component-Based Development
+
+Components help developers divide an application into smaller and reusable sections.
+
+## 3. Responsive Design
+
+Responsive design ensures websites work properly across mobile phones, tablets and desktop screens.
+
+## 4. API Integration
+
+Frontend applications communicate with backend services through APIs to retrieve and update information.
+
+## 5. Performance Optimisation
+
+Optimising images, reducing unnecessary rendering and managing application resources can improve website performance.
+
+## 6. Modern Development Tools
+
+Tools such as Vite, Git and browser developer tools help developers build and maintain applications efficiently.
+
+## Conclusion
+
+Modern web development combines reusable components, responsive layouts, API integration and performance optimisation to create better user experiences.
+`,
+        isFeatured: false,
+        isTrending: true,
+        status: "published"
+    },
+
+    {
+        id: 6,
+        title: "Emerging Technology Trends Shaping the Future",
+        slug: "emerging-technology-trends",
+        description: "Discover emerging technologies influencing businesses, software development and everyday life.",
+        image: tech,
+        category: "Technology & Innovation",
+        author: "Divya",
+        publishedAt: "2026-11-03",
+        readTime: 5,
+        content: `
+# Emerging Technology Trends Shaping the Future
+
+Technology is constantly changing how people communicate, work and solve problems. New innovations are creating opportunities across different industries.
+
+## 1. Artificial Intelligence
+
+AI helps automate tasks, analyse information and support decision-making.
+
+## 2. Cloud Computing
+
+Cloud platforms provide flexible infrastructure for hosting applications and storing information.
+
+## 3. Internet of Things
+
+IoT connects physical devices to the internet, allowing them to collect and exchange information.
+
+## 4. Automation
+
+Automation helps organisations reduce repetitive tasks and improve operational efficiency.
+
+## 5. Edge Computing
+
+Edge computing processes information closer to where it is generated, helping reduce delays in certain applications.
+
+## Conclusion
+
+Emerging technologies will continue to influence businesses and everyday life. Understanding these innovations helps developers and organisations prepare for future opportunities.
+`,
         isFeatured: false,
         isTrending: true,
         status: "published"
