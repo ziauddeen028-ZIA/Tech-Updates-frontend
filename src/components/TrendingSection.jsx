@@ -1,10 +1,34 @@
-import React from 'react'
-import { data } from '../data/blogdata';
+import React, { useState, useEffect } from 'react'
 import { Timer, Calendar } from "lucide-react";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const TrendingSection = () => {
-    const datas = data.filter((item) => item.isLatest);
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const datas = blogs.filter(
+        (item) => item.isLatest && item.status === "published"
+    );
+
+    const fetchData = async () => {
+        try {
+            const res = await axios.get('http://localhost:8000/api/blog');
+            setBlogs(res.data);
+        } catch (error) {
+            console.log(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    if (loading) {
+    return <p>Loading trending articles...</p>;
+}
     return (
         <>
             <div className='grid grid-cols-4  gap-x-5 gap-y-16 w-full items-center justify-center px-10 pb-20'>
@@ -19,14 +43,14 @@ const TrendingSection = () => {
                             </p>
                         </div>
                     ) : (datas.map((item) => (
-                        <Link to={`/blog/${item.slug}`} key={item.id} className='w-full min-w-0' >
+                        <Link to={`/blog/${item.slug}`} key={item._id} className='w-full min-w-0' >
 
                             <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
                                 <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
                             </div>
                             <div className='details mt-5'>
                                 <div className='flex items-center lg:gap-5  mb-3'>
-                                    <h4 className='text-green-700 text-[12px] font-medium'>{item.category}</h4>
+                                    <h4 className='text-green-700 text-[12px] font-medium'>{item.category?.name}</h4>
                                     <div className='flex items-center sm:gap-1 lg:gap-2 flex-nowrap'>
                                         <p > <Timer className='w-4 h-4 text-gray-500' /></p>
                                         <p className='text-gray-500 text-[12px]'>{item.readTime} Mins Read</p>

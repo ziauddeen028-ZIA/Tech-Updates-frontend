@@ -1,15 +1,44 @@
-import React from 'react'
-import { data } from '../data/blogdata';
+import React, { useState, useEffect } from 'react'
 import { Clock } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 
 const BlogDetails = () => {
     const { slug } = useParams();
-    const featuredData = data.find((item) => item.slug === slug);
+    const [featuredData, setFeaturedData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+
+    const fetchData = async () => {
+        try {
+            const res = await axios.get(`http://localhost:8000/api/blog/slug/${slug}`);
+            setFeaturedData(res.data);
+        } catch (error) {
+            console.log(error.message)
+        }
+        finally {
+            setLoading(false)
+        }
+
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [slug]);
+
+
+    if (loading) {
+        return <h2>Loading articles...</h2>;
+    }
     if (!featuredData) {
-        return <h1 className="text-center text-2xl mt-10">Blog not found</h1>;
+        return (
+            <h1 className="text-center text-2xl mt-10">
+                Blog not found
+            </h1>
+        );
     }
     return (
         <>

@@ -1,18 +1,44 @@
-import React, { useState } from 'react'
-import { data } from '../data/blogdata';
+import React, { useState, useEffect } from 'react'
 import { Timer, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 
 
 const Blogs = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
     const articlesPerPage = 6;
     const lastIndex = currentPage * articlesPerPage;
     const firstIndex = lastIndex - articlesPerPage;
-    const datas = data.filter((item) => item.status === "published" && (selectedCategory === "" || item.category === selectedCategory));
+    const datas = blogs.filter((item) => item.status === "published" && (selectedCategory === "" || item.category?.name === selectedCategory));
     const totalPages = Math.ceil(datas.length / articlesPerPage);
     const currentArticles = datas.slice(firstIndex, lastIndex);
+
+    const fetchData = async () => {
+        try {
+            const res = await axios.get('http://localhost:8000/api/blog/');
+            setBlogs(res.data);
+        } catch (error) {
+            console.log(error.message)
+        }
+        finally{
+            setLoading(false)
+        }
+
+    }
+
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
+    if (loading) {
+        return <h2>Loading articles...</h2>;
+    }
     return (
         <>
             <div className='bg-gray-50'>
@@ -52,14 +78,14 @@ const Blogs = () => {
                                     </p>
                                 </div>
                             ) : (currentArticles.map((item) => (
-                                <Link to={`/blog/${item.slug}`} key={item.id} className='w-full max-w-[350px]' >
+                                <Link to={`/blog/${item.slug}`} key={item._id} className='w-full max-w-[350px]' >
 
                                     <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
                                         <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
                                     </div>
                                     <div className='details mt-5'>
                                         <div className='flex items-center lg:gap-5  mb-3'>
-                                            <h4 className='text-green-700 text-[12px] font-medium'>{item.category}</h4>
+                                            <h4 className='text-green-700 text-[12px] font-medium'>{item.category?.name}</h4>
                                             <div className='flex items-center sm:gap-1 lg:gap-2 flex-nowrap'>
                                                 <p > <Timer className='w-4 h-4 text-gray-500' /></p>
                                                 <p className='text-gray-500 text-[12px]'>{item.readTime} Mins Read</p>

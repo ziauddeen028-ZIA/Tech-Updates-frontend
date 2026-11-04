@@ -1,10 +1,31 @@
-import React from 'react'
-import { data } from '../data/blogdata';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const PopularSidebar = () => {
-    const popularData = data.filter((item) => item.isPopular);
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const popularData = blogs.filter(
+        (item) => item.isPopular && item.status === "published"
+    );
+
+    const fetchData = async () => {
+        try {
+            const res = await axios.get('http://localhost:8000/api/blog');
+            setBlogs(res.data);
+        } catch (error) {
+            console.log(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+    
     return (
         <>
             <div className='bg-gray-50 lg:bg-white flex flex-col gap-8 w-full border-l border-dashed border-gray-300'>
