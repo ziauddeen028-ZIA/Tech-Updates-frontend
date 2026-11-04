@@ -14,7 +14,7 @@ const BlogDetails = () => {
 
     const fetchData = async () => {
         try {
-            const res = await axios.get(`http://localhost:8000/api/blog/slug/${slug}`);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/blog/slug/${slug}`);
             setFeaturedData(res.data);
         } catch (error) {
             console.log(error.message)

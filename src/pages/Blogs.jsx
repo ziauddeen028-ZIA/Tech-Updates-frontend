@@ -19,7 +19,7 @@ const Blogs = () => {
 
     const fetchData = async () => {
         try {
-            const res = await axios.get('http://localhost:8000/api/blog/');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/blog/`);
             setBlogs(res.data);
         } catch (error) {
             console.log(error.message)

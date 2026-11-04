@@ -8,7 +8,7 @@ const CategorySection = () => {
     const [loading, setLoading] = useState(true);
     const fetchData = async () => {
         try {
-            const res = await axios.get('http://localhost:8000/api/category/');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/category/`);
             setBlogs(res.data);
         } catch (error) {
             console.log(error.message)

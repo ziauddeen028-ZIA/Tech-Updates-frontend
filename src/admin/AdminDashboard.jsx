@@ -27,7 +27,7 @@ const AdminDashboard = () => {
 
     const fetchBlog = async () => {
         try {
-            const res = await axios.get("http://localhost:8000/api/blog/");
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/blog/`);
             setBlogs(res.data);
         } catch (error) {
             console.log(error.message);
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
 
     const fetchCategory = async () => {
         try {
-            const res = await axios.get("http://localhost:8000/api/category/");
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/category/`);
             setCategories(res.data);
         } catch (error) {
             console.log(error.message);
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         const token = localStorage.getItem("token");
         try {
-            const response = await axios.post("http://localhost:8000/api/blog/", formData, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/blog/`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
