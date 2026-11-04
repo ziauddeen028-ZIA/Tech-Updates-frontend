@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <ScrollToTop/>
+        <ScrollToTop />
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
@@ -29,7 +29,7 @@ function App() {
         <Footer />
 
       </BrowserRouter>
-      <AdminDashboard/>
+
     </>
   )
 }

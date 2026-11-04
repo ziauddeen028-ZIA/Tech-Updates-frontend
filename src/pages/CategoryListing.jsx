@@ -1,13 +1,39 @@
-import React, { useState } from 'react'
-import { data } from '../data/blogdata';
+import React, { useState,useEffect } from 'react'
 import { Timer, Calendar } from "lucide-react";
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 
 const CategoryListing = () => {
     const { categoryName } = useParams();
     const navigate = useNavigate();
+    const [blogs, setBlogs] = useState([]);
     const selectedCategory = categoryName === "all" ? "" : categoryName;
-    const datas = selectedCategory === "" ? data : data.filter((item) => item.category === selectedCategory);
+    const datas = selectedCategory === "" ? blogs : blogs.filter((item) => item.category?.name === selectedCategory);
+    const [loading, setLoading] = useState(true);
+
+    const fetchData = async () => {
+        try {
+            const res = await axios.get('http://localhost:8000/api/blog/');
+            setBlogs(res.data);
+        } catch (error) {
+            console.log(error.message)
+        }
+        finally {
+            setLoading(false)
+        }
+
+    }
+
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
+    if (loading) {
+        return <h2>Loading articles...</h2>;
+    }
+
     return (
         <>
             <div className='bg-gray-50'>
@@ -52,14 +78,14 @@ const CategoryListing = () => {
                                     </p>
                                 </div>
                             ) : (datas.map((item) => (
-                                <Link to={`/blog/${item.slug}`} key={item.id} className='w-[350px] h-[250px]' >
+                                <Link to={`/blog/${item.slug}`} key={item._id} className='w-[350px] h-[250px]' >
 
-                                    <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
-                                        <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
+                                    <div className="image bg-gray-50 h-[200px] overflow-hidden">
+                                        <img src={item.image} alt="artificial intelligence"  className="w-full h-full object-cover" />
                                     </div>
                                     <div className='details mt-5'>
                                         <div className='flex items-center lg:gap-5  mb-3'>
-                                            <h4 className='text-green-700 text-[12px] font-medium'>{item.category}</h4>
+                                            <h4 className='text-green-700 text-[12px] font-medium'>{item.category?.name}</h4>
                                             <div className='flex items-center sm:gap-1 lg:gap-2 flex-nowrap'>
                                                 <p > <Timer className='w-4 h-4 text-gray-500' /></p>
                                                 <p className='text-gray-500 text-[12px]'>{item.readTime} Mins Read</p>
@@ -72,7 +98,7 @@ const CategoryListing = () => {
                                                 <p>|</p>
                                                 <div className='flex items-center gap-2'>
                                                     <Calendar className='w-4 h-4' />
-                                                    <p className='text-[15px] text-gray-600'>{item.publishedAt}</p>
+                                                    <p className='text-[15px] text-gray-600'><p>{new Date(item.publishedAt).toLocaleDateString("en-IN")}</p></p>
                                                 </div>
                                             </div>
                                         </div>

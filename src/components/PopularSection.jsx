@@ -7,7 +7,7 @@ const PopularSection = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const datas = blogs.filter(
-        (item) => item.isFeatured && item.status === "published"
+        (item) => item.isTrending && item.status === "published"
     );
     const navigate = useNavigate();
     const fetchData = async () => {
@@ -54,8 +54,8 @@ const PopularSection = () => {
                             (datas.map((item) => (
                                 <Link to={`/blog/${item.slug}`} key={item._id} className='w-[350px] h-[250px] mb-10' >
 
-                                    <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
-                                        <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
+                                    <div className="image bg-gray-50 h-[200px] overflow-hidden">
+                                        <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                                     </div>
                                     <div className='details mt-5'>
                                         <div className='flex items-center lg:gap-5  mb-3'>
@@ -72,7 +72,7 @@ const PopularSection = () => {
                                                 <p>|</p>
                                                 <div className='flex items-center gap-2'>
                                                     <Calendar className='w-4 h-4' />
-                                                    <p className='text-[15px] text-gray-600'>{item.publishedAt}</p>
+                                                    <p className='text-[15px] text-gray-600'><p>{new Date(item.publishedAt).toLocaleDateString("en-IN")}</p></p>
                                                 </div>
                                             </div>
                                         </div>

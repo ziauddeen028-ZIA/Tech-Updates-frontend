@@ -80,8 +80,8 @@ const Blogs = () => {
                             ) : (currentArticles.map((item) => (
                                 <Link to={`/blog/${item.slug}`} key={item._id} className='w-full max-w-[350px]' >
 
-                                    <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
-                                        <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
+                                    <div className='image bg-gray-50 h-[200px] overflow-hidden'>
+                                        <img src={item.image} alt="artificial intelligence" className='w-full h-full object-cover' />
                                     </div>
                                     <div className='details mt-5'>
                                         <div className='flex items-center lg:gap-5  mb-3'>
@@ -98,7 +98,7 @@ const Blogs = () => {
                                                 <p>|</p>
                                                 <div className='flex items-center gap-2'>
                                                     <Calendar className='w-4 h-4' />
-                                                    <p className='text-[15px] text-gray-600'>{item.publishedAt}</p>
+                                                    <p className='text-[15px] text-gray-600'>{new Date(item.publishedAt).toLocaleDateString("en-IN")}</p>
                                                 </div>
                                             </div>
                                         </div>

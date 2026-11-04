@@ -63,7 +63,7 @@ const BlogDetails = () => {
                         </div>
                     </div>
                     <div className='mb-10'>
-                        <img src={featuredData.image} alt="" className='w-full h-[300px] lg:h-[450px] object-fill rounded-lg ' />
+                        <img src={featuredData.image} alt="" className='w-full h-[300px] lg:h-[450px] object-cover rounded-lg ' />
                     </div>
                     <div className="article-content">
                         <ReactMarkdown
