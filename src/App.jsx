@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import Blogs from './pages/Blogs'
 import BlogDetails from './pages/BlogDetails'
 import ScrollToTop from './components/ScrollToTop'
+import AdminDashboard from './admin/AdminDashboard'
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Footer />
 
       </BrowserRouter>
+      <AdminDashboard/>
     </>
   )
 }
