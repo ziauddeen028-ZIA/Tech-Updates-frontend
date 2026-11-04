@@ -1,6 +1,7 @@
 import React from 'react'
 import { data } from '../data/blogdata';
 import { Timer, Calendar } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const TrendingSection = () => {
     const datas = data.filter((item) => item.isLatest);
@@ -8,8 +9,17 @@ const TrendingSection = () => {
         <>
             <div className='grid grid-cols-4  gap-x-5 gap-y-16 w-full items-center justify-center px-10 pb-20'>
                 {
-                    datas.map((item) => (
-                        <div key={item.id} className='w-full min-w-0' >
+                    datas.length === 0 ? (
+                        <div className="col-span-full text-center py-16">
+                            <h2 className="text-2xl font-semibold text-gray-800">
+                                No trending articles available
+                            </h2>
+                            <p className="text-gray-500 mt-2">
+                                Check back later for the latest updates.
+                            </p>
+                        </div>
+                    ) : (datas.map((item) => (
+                        <Link to={`/blog/${item.slug}`} key={item.id} className='w-full min-w-0' >
 
                             <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
                                 <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
@@ -36,8 +46,8 @@ const TrendingSection = () => {
                             </div>
 
 
-                        </div>
-                    ))
+                        </Link>
+                    )))
                 }
             </div>
         </>

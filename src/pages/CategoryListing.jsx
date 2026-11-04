@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { data } from '../data/blogdata';
 import { Timer, Calendar } from "lucide-react";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const CategoryListing = () => {
     const { categoryName } = useParams();
@@ -42,8 +42,17 @@ const CategoryListing = () => {
                 <div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20 px-4 sm:px-7 lg:px-12 pb-20">
                         {
-                            datas.map((item) => (
-                                <div key={item.id} className='w-[350px] h-[250px]' >
+                            datas.length === 0 ? (
+                                <div className="col-span-full text-center py-20">
+                                    <h2 className="text-2xl font-semibold text-gray-800">
+                                        No articles found
+                                    </h2>
+                                    <p className="text-gray-500 mt-2">
+                                        There are no articles available in this category yet.
+                                    </p>
+                                </div>
+                            ) : (datas.map((item) => (
+                                <Link to={`/blog/${item.slug}`} key={item.id} className='w-[350px] h-[250px]' >
 
                                     <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
                                         <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
@@ -70,8 +79,8 @@ const CategoryListing = () => {
                                     </div>
 
 
-                                </div>
-                            ))
+                                </Link>
+                            )))
                         }
                     </div>
                 </div>

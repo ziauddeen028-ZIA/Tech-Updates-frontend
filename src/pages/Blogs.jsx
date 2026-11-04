@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { data } from '../data/blogdata';
-import { Timer, Calendar,ChevronLeft,ChevronRight } from "lucide-react";
+import { Timer, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 
 const Blogs = () => {
@@ -41,8 +42,17 @@ const Blogs = () => {
                 <div>
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mx-5 px-4 sm:px-7 lg:px-12 pb-20">
                         {
-                            currentArticles.map((item) => (
-                                <div key={item.id} className='w-full max-w-[350px]' >
+                            datas.length === 0 ? (
+                                <div className="col-span-full text-center py-20">
+                                    <h2 className="text-2xl font-semibold text-gray-800">
+                                        No articles available
+                                    </h2>
+                                    <p className="text-gray-500 mt-2">
+                                        There are no articles in this category yet.
+                                    </p>
+                                </div>
+                            ) : (currentArticles.map((item) => (
+                                <Link to={`/blog/${item.slug}`} key={item.id} className='w-full max-w-[350px]' >
 
                                     <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
                                         <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
@@ -69,37 +79,40 @@ const Blogs = () => {
                                     </div>
 
 
-                                </div>
-                            ))
+                                </Link>
+                            )))
                         }
                     </div>
-                    <div className="flex justify-center items-center gap-3 pb-10">
-                        <button
-                            disabled={currentPage === 1}
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                            className='bg-white p-2 cursor-pointer'
-                        >
-                            <ChevronLeft size={22} strokeWidth={1.5} />
-                        </button>
-
-                        {Array.from({ length: totalPages }, (_, index) => (
+                    {totalPages > 0 && (
+                        <div className="flex justify-center items-center gap-3 pb-10">
                             <button
-                                key={index}
-                                onClick={() => setCurrentPage(index + 1)}
-                                className={currentPage === index + 1 ? "font-bold text-blue-600 border border-blue-600 bg-white p-2 cursor-pointer " : "bg-white p-2 cursor-pointer"}
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                className='bg-white p-2 cursor-pointer'
                             >
-                                {index + 1}
+                                <ChevronLeft size={22} strokeWidth={1.5} />
                             </button>
-                        ))}
 
-                        <button
-                            disabled={currentPage === totalPages || totalPages === 0}
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            className='bg-white p-2 cursor-pointer'
-                        >
-                           <ChevronRight size={22} strokeWidth={1.5} />
-                        </button>
-                    </div>
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setCurrentPage(index + 1)}
+                                    className={currentPage === index + 1 ? "font-bold text-blue-600 border border-blue-600 bg-white p-2 cursor-pointer " : "bg-white p-2 cursor-pointer"}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
+
+                            <button
+                                disabled={currentPage === totalPages || totalPages === 0}
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                className='bg-white p-2 cursor-pointer'
+                            >
+                                <ChevronRight size={22} strokeWidth={1.5} />
+                            </button>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </>

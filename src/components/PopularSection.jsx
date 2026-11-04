@@ -1,11 +1,11 @@
 import React from 'react'
 import { data } from '../data/blogdata';
 import { Timer, Calendar, ChevronRight } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const PopularSection = () => {
     const datas = data.filter((item) => item.isTrending);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     return (
         <>
             <div className='bg-gray-50'>
@@ -15,9 +15,18 @@ const PopularSection = () => {
                 </div>
                 <div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20 px-4 sm:px-7 lg:px-12 pb-20 mx-4">
-                        {
-                            datas.map((item) => (
-                                <div key={item.id} className='w-[350px] h-[250px] mb-10' >
+                        {datas.length === 0 ? (
+                            <div className="text-center py-16">
+                                <h2 className="text-2xl font-semibold text-gray-800">
+                                    No popular articles available
+                                </h2>
+                                <p className="text-gray-500 mt-2">
+                                    Check back later for popular stories.
+                                </p>
+                            </div>
+                        ) :
+                            (datas.map((item) => (
+                                <Link to={`/blog/${item.slug}`} key={item.id} className='w-[350px] h-[250px] mb-10' >
 
                                     <div className='image bg-gray-50 h-[180px] flex justify-center items-center'>
                                         <img src={item.image} alt="artificial intelligence" className='w-full h-[200px] lg:h-fit  object-contain' />
@@ -44,14 +53,14 @@ const PopularSection = () => {
                                     </div>
 
 
-                                </div>
-                            ))
+                                </Link>
+                            )))
                         }
                     </div>
                 </div>
             </div>
             <div className='flex justify-center items-center'>
-                <button onClick={()=>navigate('/blogs')} className='group text-center flex items-center justify-center gap-2 cursor-pointer border lg:border lg:border-blue-600 text-blue-700 lg:px-8 px-4 my-4  py-4  transition-colors text-[15px] '>VIEW ALL BLOGS <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" /></button>
+                <button onClick={() => navigate('/blogs')} className='group text-center flex items-center justify-center gap-2 cursor-pointer border lg:border lg:border-blue-600 text-blue-700 lg:px-8 px-4 my-4  py-4  transition-colors text-[15px] '>VIEW ALL BLOGS <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" /></button>
             </div>
         </>
     )
