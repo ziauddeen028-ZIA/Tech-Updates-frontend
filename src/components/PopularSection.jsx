@@ -1,9 +1,11 @@
 import React from 'react'
 import { data } from '../data/blogdata';
-import { Timer, Calendar } from "lucide-react";
+import { Timer, Calendar, ChevronRight } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 
 const PopularSection = () => {
     const datas = data.filter((item) => item.isTrending);
+    const navigate=useNavigate();
     return (
         <>
             <div className='bg-gray-50'>
@@ -47,6 +49,9 @@ const PopularSection = () => {
                         }
                     </div>
                 </div>
+            </div>
+            <div className='flex justify-center items-center'>
+                <button onClick={()=>navigate('/blogs')} className='group text-center flex items-center justify-center gap-2 cursor-pointer border lg:border lg:border-blue-600 text-blue-700 lg:px-8 px-4 my-4  py-4  transition-colors text-[15px] '>VIEW ALL BLOGS <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" /></button>
             </div>
         </>
     )

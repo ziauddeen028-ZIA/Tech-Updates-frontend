@@ -6,6 +6,7 @@ import CategoryListing from './pages/CategoryListing'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import SearchResults from './pages/SearchResults'
 import Footer from './components/Footer'
+import Blogs from './pages/Blogs'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path="/category/:categoryName" element={<CategoryListing />} />
+          <Route path="/blogs" element={<Blogs/>} />
           <Route path="/search" element={<SearchResults />} />
         </Routes>
         <Footer/>
