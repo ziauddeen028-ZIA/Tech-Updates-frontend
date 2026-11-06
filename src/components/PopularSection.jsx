@@ -40,7 +40,7 @@ const PopularSection = () => {
                     <span className='w-14 h-[2px] bg-red-500'></span>
                 </div>
                 <div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20 px-4 sm:px-7 lg:px-12 pb-20 mx-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 lg:gap-x-8 gap-y-12 lg:gap-y-16 px-4 sm:px-7 lg:px-12 pb-16 max-w-7xl mx-auto">
                         {datas.length === 0 ? (
                             <div className="text-center py-16">
                                 <h2 className="text-2xl font-semibold text-gray-800">
@@ -52,7 +52,7 @@ const PopularSection = () => {
                             </div>
                         ) :
                             (datas.map((item) => (
-                                <Link to={`/blog/${item.slug}`} key={item._id} className='w-[350px] h-[250px] mb-10' >
+                                <Link to={`/blog/${item.slug}`} key={item._id} className="w-full min-w-0 group" >
 
                                     <div className="image bg-gray-50 h-[200px] overflow-hidden">
                                         <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
