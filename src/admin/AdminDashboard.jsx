@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+
 
 const AdminDashboard = () => {
     const [blogs, setBlogs] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showBlogForm, setShowBlogForm] = useState(false);
-    const [editingBlog, setEditingBlog] = useState(null);
+    const [showForm, setShowForm] = useState(false);
+    const [editIndex, setEditIndex] = useState(null);
+    const [deleteIndex, setDeleteIndex] = useState(null);
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
@@ -22,41 +24,34 @@ const AdminDashboard = () => {
         isTrending: false,
         isPopular: false,
         isLatest: false
-    });
+    })
 
 
-    const fetchBlog = async () => {
+    const getData = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/blog/`);
-            setBlogs(res.data);
+            const [blogRes, catRes] = await Promise.all([
+                axios.get(`${import.meta.env.VITE_API_URL}/blog/`),
+                axios.get(`${import.meta.env.VITE_API_URL}/category/`)
+            ]);
+            setBlogs(blogRes.data);
+            setCategory(catRes.data);
         } catch (error) {
-            console.log(error.message);
+            console.log(error.message)
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    };
+    }
 
-    const fetchCategory = async () => {
-        try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/category/`);
-            setCategories(res.data);
-        } catch (error) {
-            console.log(error.message);
-        } finally {
-            setLoading(false)
-        }
-    };
-    const handleAddBlog = async (e) => {
+    const addData = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token')
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/blog/`, formData, {
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/blog/`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
-            await fetchBlog();
-            setShowBlogForm(false)
+            await getData();
             setFormData({
                 title: "",
                 slug: "",
@@ -73,125 +68,165 @@ const AdminDashboard = () => {
                 isPopular: false,
                 isLatest: false
             })
+            setShowForm(false);
         } catch (error) {
-            console.log(error.message)
+            console.log(error.message);
+        }
+
+        console.log(formData);
+
+    }
+
+    const editData = (index, data) => {
+        setShowForm(true);
+        setFormData(data)
+        setEditIndex(index)
+    }
+
+    const updateData = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_API_URL}/blog/` + `${editIndex}`, formData);
+            await getData();
+            setShowForm(false);
+            setEditIndex(null);
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    const deleteData = async (deleteIndex) => {
+        try {
+            const res = await axios.delete(`${import.meta.env.VITE_API_URL}/blog/` + `${deleteIndex}`)
+            await getData();
+        } catch (error) {
+            console.log(error.message);
         }
     }
 
     useEffect(() => {
-        fetchBlog();
-    }, []);
-
-    useEffect(() => {
-        fetchCategory();
-    }, []);
+        getData();
+    }, [])
 
     if (loading) {
-        return <h2>Loading articles...</h2>;
+        return <h1 className='text-center text-3xl m-5'>Loading...</h1>
     }
-
-
 
     return (
         <>
-            <div className="min-h-screen bg-gray-50 p-6 md:p-10">
+            <div>
 
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-10 bg-white p-6 rounded-xl border border-gray-200">
-                    <h1 className="text-2xl font-bold text-gray-800">
-                        Admin Dashboard
-                    </h1>
-
-                    <div className="bg-blue-50 p-4 rounded-lg text-center min-w-28">
-                        <p>Blogs: {blogs.length}</p>
-                        <p>Categories: {categories.length}</p>
+                <div className="bg-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 p-5 w-full">
+                    <h1 className='lg:text-4xl text-4xl font-bold'>AdminDashboard</h1>
+                    <div className='flex gap-4'>
+                        <h1 className='text-2xl font-bold'>Blog Count : <span className='text-center'>{blogs.length}</span></h1>
+                        <h1 className='text-2xl font-bold'>Category Count : <span className='text-center'>{category.length}</span></h1>
                     </div>
                 </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                        <div className="flex justify-between items-center mb-6">
-                            <h1 className="text-xl font-semibold text-gray-800">Blogs</h1>
-
-                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
-                                onClick={() => setShowBlogForm(true)}>
-                                ADD BLOG
-                            </button>
+                <div className='flex lg:flex-row flex-col gap-6 p-4'>
+                    <div className="blog w-full lg:w-1/2 bg-white shadow-md rounded-xl p-5">
+                        <div className="flex justify-between items-center mb-5">
+                            <h1 className='text-2xl font-bold'>Blog</h1>
+                            <button className='bg-green-500 p-3 rounded-xl text-white'
+                                onClick={() => {
+                                    setShowForm(true)
+                                    setEditIndex(null)
+                                    setFormData({
+                                        title: "",
+                                        slug: "",
+                                        description: "",
+                                        content: "",
+                                        image: "",
+                                        category: "",
+                                        author: "",
+                                        publishedAt: "",
+                                        readTime: "",
+                                        status: "draft",
+                                        isFeatured: false,
+                                        isTrending: false,
+                                        isPopular: false,
+                                        isLatest: false
+                                    })
+                                }}
+                            >ADD</button>
                         </div>
+                        <ul>
+                            {blogs.map((data) => (
+                                <li
+                                    key={data._id}
+                                    className="flex justify-between items-center gap-3 border-b p-4"
+                                >
+                                    <p className="text-base sm:text-lg font-medium flex-1 break-words">
+                                        {data.title}
+                                    </p>
 
-                        {blogs.map((item, index) => (
-                            <div
-                                key={item._id}
-                                className="flex justify-between items-center border-b py-4"
-                            >
-                                <div className="flex gap-4">
-                                    <p>{index + 1}</p>
-                                    <p>{item.title}</p>
-                                    <p>{item.category?.name}</p>
-                                    <p>{item.status}</p>
-                                </div>
+                                    <div className="flex gap-2 shrink-0">
+                                        <button className="bg-blue-500 p-3 rounded-xl text-white"
+                                            onClick={() => editData(data._id, data)}
+                                        >
+                                            EDIT
+                                        </button>
 
-                                <div className="flex gap-2">
-                                    <button className="text-blue-600 border border-blue-200 px-3 py-1.5 rounded-md">
-                                        Edit
-                                    </button>
+                                        <button className="bg-red-500 p-3 rounded-xl text-white"
+                                        onClick={() => deleteData(data._id)}
+                                        >
+                                            DELETE
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
 
-                                    <button className="text-red-600 border border-red-200 px-3 py-1.5 rounded-md">
-                                        Delete
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+
+                    </div>
+
+                    <div className='category w-full lg:w-1/2 m-4'>
+                        <div className='flex justify-around'>
+                            <h1 className='text-2xl font-bold'>Categories</h1>
+                            <button className='bg-green-500 p-3 rounded-xl text-white'>ADD</button>
+                        </div>
+                        <ul>
+                            {category.map((data) => (
+                                <li
+                                    key={data._id}
+                                    className="flex justify-between items-center gap-3 border-b p-4"
+                                >
+                                    <p className="text-base sm:text-lg font-medium flex-1 break-words">
+                                        {data.name}
+                                    </p>
+
+                                    <div className="flex gap-2 shrink-0">
+                                        <button className="bg-blue-500 p-3 rounded-xl text-white">
+                                            EDIT
+                                        </button>
+
+                                        <button className="bg-red-500 p-3 rounded-xl text-white">
+                                            DELETE
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
 
 
-                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                        <div className="flex justify-between items-center mb-6">
-                            <h1 className="text-xl font-semibold text-gray-800">
-                                Categories
-                            </h1>
-
-                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
-                                ADD CATEGORY
-                            </button>
-                        </div>
-
-                        {categories.map((item, index) => (
-                            <div
-                                key={item._id}
-                                className="flex items-center justify-between border-b border-gray-100 py-4"
-                            >
-                                <p>
-                                    {index + 1}. {item.name}
-                                </p>
-
-                                <div className="flex gap-2">
-                                    <button className="text-blue-600 border border-blue-200 px-3 py-1.5 rounded-md">
-                                        Edit
-                                    </button>
-
-                                    <button className="text-red-600 border border-red-200 px-3 py-1.5 rounded-md">
-                                        Delete
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
                 </div>
-                {showBlogForm && (
-                    <div className="bg-white border rounded-xl p-6 mt-6">
-                        <h2 className="text-xl font-semibold mb-6">
-                            Add New Blog
-                        </h2>
+                {showForm && (
+                    <form className="bg-gray-100 p-5 rounded-xl mt-5"
+                        onSubmit={editIndex == null ? addData : updateData}>
 
-                        <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleAddBlog}>
+                        <h1 className="text-2xl font-bold mb-5">{editIndex === null ? "Add New Blog" : "Edit Blog"}</h1>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                             <input
                                 type="text"
-                                placeholder="Blog Title"
+                                placeholder="Title"
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                className="border rounded-lg p-3"
+                                className="border p-3 rounded-lg"
+                                required
                             />
 
                             <input
@@ -199,15 +234,17 @@ const AdminDashboard = () => {
                                 placeholder="Slug"
                                 value={formData.slug}
                                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                                className="border rounded-lg p-3"
+                                className="border p-3 rounded-lg"
+                                required
                             />
 
                             <input
                                 type="text"
-                                placeholder="Short Description"
-                                value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                className="border rounded-lg p-3 md:col-span-2"
+                                placeholder="Author"
+                                value={formData.author}
+                                onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                                className="border p-3 rounded-lg"
+                                required
                             />
 
                             <input
@@ -215,105 +252,108 @@ const AdminDashboard = () => {
                                 placeholder="Image URL"
                                 value={formData.image}
                                 onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                                className="border rounded-lg p-3"
+                                className="border p-3 rounded-lg"
+                                required
+                            />
+
+                            <textarea
+                                placeholder="Description"
+                                value={formData.description}
+                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                className="border p-3 rounded-lg sm:col-span-2"
+                                required
+                            />
+
+                            <textarea
+                                placeholder="Content"
+                                value={formData.content}
+                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                                className="border p-3 rounded-lg sm:col-span-2"
+                                rows="5"
+                                required
                             />
 
                             <select
                                 value={formData.category}
                                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                className="border rounded-lg p-3"
+                                className="border p-3 rounded-lg"
+                                required
                             >
                                 <option value="">Select Category</option>
-                                {categories.map((item) => (
-                                    <option key={item._id} value={item._id}>
-                                        {item.name}
+                                {category.map((data) => (
+                                    <option key={data._id} value={data._id}>
+                                        {data.name}
                                     </option>
                                 ))}
                             </select>
 
                             <input
-                                type="text"
-                                placeholder="Author"
-                                value={formData.author}
-                                onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                                className="border rounded-lg p-3"
-                            />
-
-                            <input
                                 type="date"
                                 value={formData.publishedAt}
                                 onChange={(e) => setFormData({ ...formData, publishedAt: e.target.value })}
-                                className="border rounded-lg p-3"
+                                className="border p-3 rounded-lg"
+                                required
                             />
 
                             <input
                                 type="number"
-                                placeholder="Read Time (minutes)"
+                                placeholder="Read Time"
                                 value={formData.readTime}
                                 onChange={(e) => setFormData({ ...formData, readTime: e.target.value })}
-                                className="border rounded-lg p-3"
+                                className="border p-3 rounded-lg"
+                                required
                             />
 
                             <select
                                 value={formData.status}
                                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                className="border rounded-lg p-3"
+                                className="border p-3 rounded-lg"
+                                required
                             >
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
                             </select>
 
-                            <textarea
-                                placeholder="Blog Content (Markdown supported)"
-                                value={formData.content}
-                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                                className="border rounded-lg p-3 md:col-span-2"
-                                rows="8"
-                            />
+                        </div>
 
-                            <div className="md:col-span-2 flex flex-wrap gap-6">
+                        <div className="flex flex-wrap gap-4 mt-4">
+                            {["isFeatured", "isTrending", "isPopular", "isLatest"].map((field) => (
+                                <label key={field}>
+                                    <input
+                                        type="checkbox"
+                                        checked={formData[field]}
+                                        onChange={(e) => setFormData({
+                                            ...formData,
+                                            [field]: e.target.checked
+                                        })}
+                                    />
+                                    {" "}{field}
+                                </label>
+                            ))}
+                        </div>
 
-                                {["isFeatured", "isTrending", "isPopular", "isLatest"].map((field) => (
-                                    <label key={field} className="flex items-center gap-2">
-                                        <input
-                                            type="checkbox"
-                                            checked={formData[field]}
-                                            onChange={(e) => setFormData({
-                                                ...formData,
-                                                [field]: e.target.checked
-                                            })}
-                                        />
-                                        {field.replace("is", "")}
-                                    </label>
-                                ))}
+                        <div className="flex gap-3 mt-5">
+                            <button
+                                type='submit'
+                                className="bg-green-600 text-white px-5 py-2 rounded-lg"
+                            >
+                                {editIndex == null ? "ADD" : "UPDATE"}
+                            </button>
 
-                            </div>
+                            <button
+                                onClick={() => setShowForm(false)}
+                                type='button'
+                                className="bg-gray-400 text-white px-5 py-2 rounded-lg"
+                            >
+                                CANCEL
+                            </button>
+                        </div>
 
-                            <div className="md:col-span-2 flex gap-3">
-
-                                <button
-                                    type="submit"
-                                    className="bg-blue-600 text-white px-6 py-2 rounded-lg"
-                                >
-                                    Save Blog
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onClick={() => setShowBlogForm(false)}
-                                    className="border px-6 py-2 rounded-lg"
-                                >
-                                    Cancel
-                                </button>
-
-                            </div>
-
-                        </form>
-                    </div>
+                    </form>
                 )}
             </div>
         </>
-    );
-};
+    )
+}
 
-export default AdminDashboard;
+export default AdminDashboard
