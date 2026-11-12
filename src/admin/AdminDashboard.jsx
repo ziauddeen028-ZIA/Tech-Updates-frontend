@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-
 const AdminDashboard = () => {
     const [blogs, setBlogs] = useState([]);
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
+    const [showCatForm, setShowCatForm] = useState(false);
     const [editIndex, setEditIndex] = useState(null);
     const [deleteIndex, setDeleteIndex] = useState(null);
     const [formData, setFormData] = useState({
@@ -25,6 +25,11 @@ const AdminDashboard = () => {
         isPopular: false,
         isLatest: false
     })
+    const [formCatData, setFormCatData] = useState({
+        name: "",
+        slug: "",
+        description: "",
+    })
 
 
     const getData = async () => {
@@ -42,6 +47,7 @@ const AdminDashboard = () => {
         }
     }
 
+    //add Blog data
     const addData = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token')
@@ -77,12 +83,47 @@ const AdminDashboard = () => {
 
     }
 
+    //add Category data
+
+    const addCatData = async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token')
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/category/`, formCatData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            await getData();
+            setFormCatData({
+                title: "",
+                slug: "",
+                description: "",
+            })
+            setShowCatForm(false);
+        } catch (error) {
+            console.log(error.message);
+        }
+
+        console.log(formCatData);
+
+    }
+
+
+    //Edit Blog
     const editData = (index, data) => {
         setShowForm(true);
         setFormData(data)
         setEditIndex(index)
     }
+    //Edit Category
+    const editCatData = (index, data) => {
+        setShowCatForm(true);
+        setFormCatData(data)
+        setEditIndex(index)
+    }
 
+    //Update Blog
     const updateData = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token')
@@ -100,11 +141,45 @@ const AdminDashboard = () => {
             console.log(error.message);
         }
     }
+    //Update Category
+    const updateCatData = async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token')
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_API_URL}/category/` + `${editIndex}`, formCatData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            await getData();
+            setShowCatForm(false);
+            setEditIndex(null);
 
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+
+    //delete Blog
     const deleteData = async (deleteIndex) => {
         const token = localStorage.getItem('token')
         try {
             const res = await axios.delete(`${import.meta.env.VITE_API_URL}/blog/` + `${deleteIndex}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            await getData();
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    const deleteCatData = async (deleteIndex) => {
+        const token = localStorage.getItem('token')
+        try {
+            const res = await axios.delete(`${import.meta.env.VITE_API_URL}/category/` + `${deleteIndex}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -179,7 +254,7 @@ const AdminDashboard = () => {
                                         </button>
 
                                         <button className="bg-red-500 p-3 rounded-xl text-white"
-                                        onClick={() => deleteData(data._id)}
+                                            onClick={() => deleteData(data._id)}
                                         >
                                             DELETE
                                         </button>
@@ -194,7 +269,18 @@ const AdminDashboard = () => {
                     <div className='category w-full lg:w-1/2 m-4'>
                         <div className='flex justify-around'>
                             <h1 className='text-2xl font-bold'>Categories</h1>
-                            <button className='bg-green-500 p-3 rounded-xl text-white'>ADD</button>
+                            <button className='bg-green-500 p-3 rounded-xl text-white'
+                                onClick={() => {
+                                    setShowCatForm(true)
+                                    setEditIndex(null)
+                                    setFormData({
+                                        name: "",
+                                        slug: "",
+                                        description: "",
+                                    })
+                                }}>
+                                ADD
+                            </button>
                         </div>
                         <ul>
                             {category.map((data) => (
@@ -207,11 +293,15 @@ const AdminDashboard = () => {
                                     </p>
 
                                     <div className="flex gap-2 shrink-0">
-                                        <button className="bg-blue-500 p-3 rounded-xl text-white">
+                                        <button className="bg-blue-500 p-3 rounded-xl text-white"
+                                            onClick={() => editCatData(data._id, data)}
+                                        >
                                             EDIT
                                         </button>
 
-                                        <button className="bg-red-500 p-3 rounded-xl text-white">
+                                        <button className="bg-red-500 p-3 rounded-xl text-white"
+                                            onClick={() => deleteCatData(data._id)}
+                                        >
                                             DELETE
                                         </button>
                                     </div>
@@ -222,6 +312,8 @@ const AdminDashboard = () => {
 
 
                 </div>
+
+
                 {showForm && (
                     <form className="bg-gray-100 p-5 rounded-xl mt-5"
                         onSubmit={editIndex == null ? addData : updateData}>
@@ -352,6 +444,66 @@ const AdminDashboard = () => {
 
                             <button
                                 onClick={() => setShowForm(false)}
+                                type='button'
+                                className="bg-gray-400 text-white px-5 py-2 rounded-lg"
+                            >
+                                CANCEL
+                            </button>
+                        </div>
+
+                    </form>
+                )}
+
+                {showCatForm && (
+                    <form className="bg-gray-100 p-5 rounded-xl mt-5"
+                        onSubmit={editIndex == null ? addCatData : updateCatData}>
+
+
+                        <h1 className="text-2xl font-bold mb-5">{editIndex === null ? "Add New Blog" : "Edit Blog"}</h1>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                            <input
+                                type="text"
+                                placeholder="Name"
+                                value={formCatData.name}
+                                onChange={(e) => setFormCatData({ ...formCatData, name: e.target.value })}
+                                className="border p-3 rounded-lg"
+                                required
+                            />
+
+                            <input
+                                type="text"
+                                placeholder="Slug"
+                                value={formCatData.slug}
+                                onChange={(e) => setFormCatData({ ...formCatData, slug: e.target.value })}
+                                className="border p-3 rounded-lg"
+                                required
+                            />
+
+                            <textarea
+                                placeholder="Description"
+                                value={formCatData.description}
+                                onChange={(e) => setFormCatData({ ...formCatData, description: e.target.value })}
+                                className="border p-3 rounded-lg sm:col-span-2"
+                                required
+                            />
+
+
+                        </div>
+
+
+
+                        <div className="flex gap-3 mt-5">
+                            <button
+                                type='submit'
+                                className="bg-green-600 text-white px-5 py-2 rounded-lg"
+                            >
+                                {editIndex == null ? "ADD" : "UPDATE"}
+                            </button>
+
+                            <button
+                                onClick={() => setShowCatForm(false)}
                                 type='button'
                                 className="bg-gray-400 text-white px-5 py-2 rounded-lg"
                             >
