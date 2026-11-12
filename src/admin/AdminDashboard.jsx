@@ -85,8 +85,13 @@ const AdminDashboard = () => {
 
     const updateData = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token')
         try {
-            const res = await axios.put(`${import.meta.env.VITE_API_URL}/blog/` + `${editIndex}`, formData);
+            const res = await axios.put(`${import.meta.env.VITE_API_URL}/blog/` + `${editIndex}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             await getData();
             setShowForm(false);
             setEditIndex(null);
@@ -97,8 +102,13 @@ const AdminDashboard = () => {
     }
 
     const deleteData = async (deleteIndex) => {
+        const token = localStorage.getItem('token')
         try {
-            const res = await axios.delete(`${import.meta.env.VITE_API_URL}/blog/` + `${deleteIndex}`)
+            const res = await axios.delete(`${import.meta.env.VITE_API_URL}/blog/` + `${deleteIndex}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             await getData();
         } catch (error) {
             console.log(error.message);

@@ -10,6 +10,7 @@ import Blogs from './pages/Blogs'
 import BlogDetails from './pages/BlogDetails'
 import ScrollToTop from './components/ScrollToTop'
 import AdminDashboard from './admin/AdminDashboard'
+import AdminLogin from './admin/AdminLogin'
 
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog/:slug" element={<BlogDetails />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
         <Footer />
 

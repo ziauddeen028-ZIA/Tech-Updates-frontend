@@ -7,7 +7,7 @@ import CategoryListing from './CategoryListing'
 import SearchResults from './SearchResults'
 import PopularSection from '../components/PopularSection'
 import BlogDetails from './BlogDetails'
-import AdminDashboard from '../admin/AdminDashboard'
+
 
 const Home = () => {
     return (
@@ -35,9 +35,7 @@ const Home = () => {
             <div>
                 <PopularSection />
             </div>
-            <div>
-                <AdminDashboard />
-            </div>
+
 
         </>
     )

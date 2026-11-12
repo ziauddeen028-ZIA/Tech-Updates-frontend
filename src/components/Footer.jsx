@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaXTwitter, FaFacebook, FaYoutube, FaLinkedin, FaInstagram } from "react-icons/fa6";
 import logo from '../assets/footer-img.png';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -23,6 +24,9 @@ const Footer = () => {
                         <p>
                             © 2026 Tech Updates. All Rights Reserved.
                         </p>
+                        <Link to={"/login"}>
+                            <p>Admin Login</p>
+                        </Link>
                     </div>
                 </div>
             </footer>
