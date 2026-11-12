@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Timer, Calendar } from "lucide-react";
-import { useSearchParams, useNavigate,Link } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 
 const SearchResults = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const searchTerm = searchParams.get("q") || "";
     const filteredData = blogs.filter((item) =>
@@ -36,8 +36,9 @@ const SearchResults = () => {
 
 
     if (loading) {
-        return <h2>Loading articles...</h2>;
+        return <h1 className='text-center text-3xl m-5'>Loading...</h1>
     }
+    
     return (
         <>
             <div>

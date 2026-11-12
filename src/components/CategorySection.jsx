@@ -26,8 +26,9 @@ const CategorySection = () => {
 
 
     if (loading) {
-        return <h2>Loading articles...</h2>;
+        return <h1 className='text-center text-3xl m-5'>Loading...</h1>
     }
+    
     return (
         <div className='bg-gray-50 my-14 pb-10'>
             <div className='flex flex-col items-center py-14'>

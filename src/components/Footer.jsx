@@ -24,7 +24,7 @@ const Footer = () => {
                         <p>
                             © 2026 Tech Updates. All Rights Reserved.
                         </p>
-                        <Link to={"/login"}>
+                        <Link to={"/login"} className='text-center'>
                             <p>Admin Login</p>
                         </Link>
                     </div>

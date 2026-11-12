@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Timer, Calendar } from "lucide-react";
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -31,7 +31,7 @@ const CategoryListing = () => {
 
 
     if (loading) {
-        return <h2>Loading articles...</h2>;
+        return <h1 className='text-center text-3xl m-5'>Loading...</h1>
     }
 
     return (
@@ -81,7 +81,7 @@ const CategoryListing = () => {
                                 <Link to={`/blog/${item.slug}`} key={item._id} className='w-[350px] h-[250px]' >
 
                                     <div className="image bg-gray-50 h-[200px] overflow-hidden">
-                                        <img src={item.image} alt="artificial intelligence"  className="w-full h-full object-cover" />
+                                        <img src={item.image} alt="artificial intelligence" className="w-full h-full object-cover" />
                                     </div>
                                     <div className='details mt-5'>
                                         <div className='flex items-center lg:gap-5  mb-3'>

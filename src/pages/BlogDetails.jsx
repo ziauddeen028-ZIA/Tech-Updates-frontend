@@ -31,7 +31,7 @@ const BlogDetails = () => {
 
 
     if (loading) {
-        return <h2>Loading articles...</h2>;
+        return <h1 className='text-center text-3xl m-5'>Loading...</h1>
     }
     if (!featuredData) {
         return (
@@ -53,8 +53,27 @@ const BlogDetails = () => {
                                 <h1 className='text-blue-600 text-xl '>{featuredData.author}</h1>
                                 <span className="h-16 hidden lg:block border-l border-dashed border-gray-300"></span>
                                 <div className='flex items-start flex-col gap-2 text-gray-600 text-sm'>
-                                    <p>Published on: <span className="text-gray-900">{featuredData.publishedAt}</span></p>
-                                    <p> Last Updated on: <span className="text-gray-900">{featuredData.publishedAt}</span>   </p>
+                                    <p>
+                                        Published on:
+                                        <span className="text-gray-900">
+                                            {new Date(featuredData.publishedAt).toLocaleDateString("en-IN", {
+                                                day: "numeric",
+                                                month: "short",
+                                                year: "numeric"
+                                            })}
+                                        </span>
+                                    </p>
+
+                                    <p>
+                                        Last Updated on:
+                                        <span className="text-gray-900">
+                                            {new Date(featuredData.updatedAt || featuredData.publishedAt).toLocaleDateString("en-IN", {
+                                                day: "numeric",
+                                                month: "short",
+                                                year: "numeric"
+                                            })}
+                                        </span>
+                                    </p>
                                 </div>
                             </div>
                             <div className='flex justify-start lg:items-center gap-2 text-gray-600 text-sm'>

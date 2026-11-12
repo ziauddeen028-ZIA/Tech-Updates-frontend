@@ -33,7 +33,7 @@ const FeaturedArticle = () => {
 
 
     if (loading) {
-        return <h2>Loading articles...</h2>;
+        return <h1 className='text-center text-3xl m-5'>Loading...</h1>
     }
 
     if (featuredData.length === 0) {
@@ -70,7 +70,13 @@ const FeaturedArticle = () => {
                             <p>|</p>
                             <div className='flex items-center gap-2'>
                                 <Calendar className='w-4 h-4' />
-                                <p className='text-[15px] text-gray-600'>{datas.publishedAt}</p>
+                                <p className='text-[15px] text-gray-600'>
+                                    {new Date(datas.publishedAt).toLocaleDateString("en-IN", {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric"
+                                    })}
+                                </p>
                             </div>
                         </div>
                     </div>

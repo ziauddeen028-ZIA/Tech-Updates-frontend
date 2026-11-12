@@ -8,7 +8,7 @@ const AdminDashboard = () => {
     const [showForm, setShowForm] = useState(false);
     const [showCatForm, setShowCatForm] = useState(false);
     const [editIndex, setEditIndex] = useState(null);
-    const [deleteIndex, setDeleteIndex] = useState(null);
+    const [actionLoading, setActionLoading] = useState("");
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
@@ -51,6 +51,7 @@ const AdminDashboard = () => {
     const addData = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token')
+        setActionLoading("addBlog");
         try {
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/blog/`, formData, {
                 headers: {
@@ -75,10 +76,12 @@ const AdminDashboard = () => {
                 isLatest: false
             })
             setShowForm(false);
+            alert("Blog created successfully!");
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setActionLoading("");
         }
-
         console.log(formData);
 
     }
@@ -88,6 +91,7 @@ const AdminDashboard = () => {
     const addCatData = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token')
+        setActionLoading("addCategory");
         try {
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/category/`, formCatData, {
                 headers: {
@@ -101,8 +105,11 @@ const AdminDashboard = () => {
                 description: "",
             })
             setShowCatForm(false);
+            alert("Category created successfully!");
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setActionLoading("");
         }
 
         console.log(formCatData);
@@ -127,6 +134,7 @@ const AdminDashboard = () => {
     const updateData = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token')
+        setActionLoading("updateBlog");
         try {
             const res = await axios.put(`${import.meta.env.VITE_API_URL}/blog/` + `${editIndex}`, formData, {
                 headers: {
@@ -136,15 +144,18 @@ const AdminDashboard = () => {
             await getData();
             setShowForm(false);
             setEditIndex(null);
-
+            alert("Blog updated successfully!");
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setActionLoading("");
         }
     }
     //Update Category
     const updateCatData = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token')
+        setActionLoading("updateCategory");
         try {
             const res = await axios.put(`${import.meta.env.VITE_API_URL}/category/` + `${editIndex}`, formCatData, {
                 headers: {
@@ -154,9 +165,12 @@ const AdminDashboard = () => {
             await getData();
             setShowCatForm(false);
             setEditIndex(null);
+            alert("Category updated successfully!");
 
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setActionLoading("");
         }
     }
 
@@ -164,6 +178,7 @@ const AdminDashboard = () => {
     //delete Blog
     const deleteData = async (deleteIndex) => {
         const token = localStorage.getItem('token')
+        setActionLoading("deleteBlog");
         try {
             const res = await axios.delete(`${import.meta.env.VITE_API_URL}/blog/` + `${deleteIndex}`, {
                 headers: {
@@ -171,13 +186,17 @@ const AdminDashboard = () => {
                 }
             })
             await getData();
+            alert("Blog deleted successfully!");
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setActionLoading("");
         }
     }
 
     const deleteCatData = async (deleteIndex) => {
         const token = localStorage.getItem('token')
+        setActionLoading("deleteCategory");
         try {
             const res = await axios.delete(`${import.meta.env.VITE_API_URL}/category/` + `${deleteIndex}`, {
                 headers: {
@@ -185,8 +204,12 @@ const AdminDashboard = () => {
                 }
             })
             await getData();
+            alert("Category deleted successfully!");
+
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setActionLoading("");
         }
     }
 
@@ -256,7 +279,7 @@ const AdminDashboard = () => {
                                         <button className="bg-red-500 p-3 rounded-xl text-white"
                                             onClick={() => deleteData(data._id)}
                                         >
-                                            DELETE
+                                            {actionLoading === "deleteBlog" ? "DELETING..." : "DELETE"}
                                         </button>
                                     </div>
                                 </li>
@@ -302,7 +325,7 @@ const AdminDashboard = () => {
                                         <button className="bg-red-500 p-3 rounded-xl text-white"
                                             onClick={() => deleteCatData(data._id)}
                                         >
-                                            DELETE
+                                            {actionLoading === "deleteCategory" ? "DELETING..." : "DELETE"}
                                         </button>
                                     </div>
                                 </li>
@@ -439,7 +462,11 @@ const AdminDashboard = () => {
                                 type='submit'
                                 className="bg-green-600 text-white px-5 py-2 rounded-lg"
                             >
-                                {editIndex == null ? "ADD" : "UPDATE"}
+                                {actionLoading === "addBlog"
+                                    ? "ADDING..."
+                                    : actionLoading === "updateBlog"
+                                        ? "UPDATING..."
+                                        : editIndex == null ? "ADD" : "UPDATE"}
                             </button>
 
                             <button
@@ -499,7 +526,11 @@ const AdminDashboard = () => {
                                 type='submit'
                                 className="bg-green-600 text-white px-5 py-2 rounded-lg"
                             >
-                                {editIndex == null ? "ADD" : "UPDATE"}
+                                {actionLoading === "addCategory"
+                                    ? "ADDING..."
+                                    : actionLoading === "updateCategory"
+                                        ? "UPDATING..."
+                                        : editIndex == null ? "ADD" : "UPDATE"}
                             </button>
 
                             <button

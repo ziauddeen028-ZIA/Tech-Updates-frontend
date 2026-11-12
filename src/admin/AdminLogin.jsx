@@ -34,8 +34,9 @@ const AdminLogin = () => {
     }
 
     if (loading) {
-        return <h2>Loading...</h2>
+        return <h1 className='text-center text-3xl m-5'>Loading...</h1>
     }
+    
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
 
