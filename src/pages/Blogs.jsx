@@ -66,7 +66,7 @@ const Blogs = () => {
                     {selectedCategory || "All Blog Articles"}
                 </div>
                 <div>
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mx-5 px-4 sm:px-7 lg:px-12 pb-20">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 px-4 sm:px-7 lg:px-12 pb-20">
                         {
                             datas.length === 0 ? (
                                 <div className="col-span-full text-center py-20">
@@ -78,7 +78,7 @@ const Blogs = () => {
                                     </p>
                                 </div>
                             ) : (currentArticles.map((item) => (
-                                <Link to={`/blog/${item.slug}`} key={item._id} className='w-full max-w-[350px]' >
+                                <Link to={`/blog/${item.slug}`} key={item._id} className='w-full min-w-0'>
 
                                     <div className='image bg-gray-50 h-[200px] overflow-hidden'>
                                         <img src={item.image} alt="artificial intelligence" className='w-full h-full object-cover' />

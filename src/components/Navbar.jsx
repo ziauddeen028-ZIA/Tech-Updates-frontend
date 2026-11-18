@@ -41,6 +41,18 @@ const Navbar = () => {
                             onKeyDown={handleSearch}
                             className="flex-1 border-b border-gray-300 py-4 text-xl outline-none"
                         />
+                        <button
+                            onClick={() => {
+                                if (searchTerm.trim()) {
+                                    navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+                                    setIsSearchOpen(false);
+                                    setSearchTerm("");
+                                }
+                            }}
+                            className="bg-green-600 text-white px-4 py-2 rounded-md"
+                        >
+                            Search
+                        </button>
                         <X onClick={() => setIsSearchOpen(false)}
                             className="cursor-pointer shrink-0 w-6 h-6" />
                     </div>

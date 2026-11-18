@@ -9,6 +9,8 @@ const AdminDashboard = () => {
     const [showCatForm, setShowCatForm] = useState(false);
     const [editIndex, setEditIndex] = useState(null);
     const [actionLoading, setActionLoading] = useState("");
+    const [msg, setMsg] = useState("");
+    const [catmsg, setCatMsg] = useState("");
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
@@ -52,6 +54,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         const token = localStorage.getItem('token')
         setActionLoading("addBlog");
+        setMsg("");
         try {
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/blog/`, formData, {
                 headers: {
@@ -92,6 +95,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         const token = localStorage.getItem('token')
         setActionLoading("addCategory");
+        setCatMsg("");
         try {
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/category/`, formCatData, {
                 headers: {
@@ -178,13 +182,14 @@ const AdminDashboard = () => {
     //delete Blog
     const deleteData = async (deleteIndex) => {
         const token = localStorage.getItem('token')
-        setActionLoading("deleteBlog");
+        setActionLoading(`deleteBlog-${deleteIndex}`);
         try {
             const res = await axios.delete(`${import.meta.env.VITE_API_URL}/blog/` + `${deleteIndex}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
+
             await getData();
             alert("Blog deleted successfully!");
         } catch (error) {
@@ -194,9 +199,10 @@ const AdminDashboard = () => {
         }
     }
 
+    //delete Cat
     const deleteCatData = async (deleteIndex) => {
         const token = localStorage.getItem('token')
-        setActionLoading("deleteCategory");
+        setActionLoading(`deleteCategory-${deleteIndex}`);
         try {
             const res = await axios.delete(`${import.meta.env.VITE_API_URL}/category/` + `${deleteIndex}`, {
                 headers: {
@@ -240,6 +246,7 @@ const AdminDashboard = () => {
                                 onClick={() => {
                                     setShowForm(true)
                                     setEditIndex(null)
+                                    setMsg("The Form Opened at bottom of the website...");
                                     setFormData({
                                         title: "",
                                         slug: "",
@@ -259,6 +266,7 @@ const AdminDashboard = () => {
                                 }}
                             >ADD</button>
                         </div>
+                        <div>{msg}</div>
                         <ul>
                             {blogs.map((data) => (
                                 <li
@@ -279,7 +287,7 @@ const AdminDashboard = () => {
                                         <button className="bg-red-500 p-3 rounded-xl text-white"
                                             onClick={() => deleteData(data._id)}
                                         >
-                                            {actionLoading === "deleteBlog" ? "DELETING..." : "DELETE"}
+                                            {actionLoading === `deleteBlog-${data._id}` ? "DELETING..." : "DELETE"}
                                         </button>
                                     </div>
                                 </li>
@@ -296,6 +304,7 @@ const AdminDashboard = () => {
                                 onClick={() => {
                                     setShowCatForm(true)
                                     setEditIndex(null)
+                                    setCatMsg("The Form Opened at bottom of the website...");
                                     setFormData({
                                         name: "",
                                         slug: "",
@@ -305,6 +314,7 @@ const AdminDashboard = () => {
                                 ADD
                             </button>
                         </div>
+                        <div>{catmsg}</div>
                         <ul>
                             {category.map((data) => (
                                 <li
@@ -325,7 +335,7 @@ const AdminDashboard = () => {
                                         <button className="bg-red-500 p-3 rounded-xl text-white"
                                             onClick={() => deleteCatData(data._id)}
                                         >
-                                            {actionLoading === "deleteCategory" ? "DELETING..." : "DELETE"}
+                                            {actionLoading === `deleteCategory-${data._id}` ? "DELETING..." : "DELETE"}
                                         </button>
                                     </div>
                                 </li>
@@ -470,7 +480,10 @@ const AdminDashboard = () => {
                             </button>
 
                             <button
-                                onClick={() => setShowForm(false)}
+                                onClick={() => {
+                                    setShowForm(false)
+                                    setMsg("")
+                                }}
                                 type='button'
                                 className="bg-gray-400 text-white px-5 py-2 rounded-lg"
                             >
@@ -534,7 +547,10 @@ const AdminDashboard = () => {
                             </button>
 
                             <button
-                                onClick={() => setShowCatForm(false)}
+                                onClick={() => {
+                                    setShowCatForm(false)
+                                    setCatMsg("")
+                                }}
                                 type='button'
                                 className="bg-gray-400 text-white px-5 py-2 rounded-lg"
                             >
