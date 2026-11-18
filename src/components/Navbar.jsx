@@ -32,14 +32,14 @@ const Navbar = () => {
 
 
                 {isSearchOpen && (
-                    <div className="absolute top-full left-0 w-full bg-white shadow-lg px-6 lg:px-12 py-8 z-30 flex items-center gap-5">
+                    <div className="absolute top-full left-0 w-full bg-white shadow-lg px-3 sm:px-6 lg:px-12 py-8 z-30 flex items-center gap-2 sm:gap-5">
                         <input
                             type="text"
                             placeholder="Search articles..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyDown={handleSearch}
-                            className="flex-1 border-b border-gray-300 py-4 text-xl outline-none"
+                            className="flex-1 border-b min-w-0  border-gray-300 py-4 text-base sm:text-xl outline-none"
                         />
                         <button
                             onClick={() => {
@@ -49,7 +49,7 @@ const Navbar = () => {
                                     setSearchTerm("");
                                 }
                             }}
-                            className="bg-green-600 text-white px-4 py-2 rounded-md"
+                            className="bg-green-600 text-white px-3 sm:px-4 shrink-0 py-2 rounded-md "
                         >
                             Search
                         </button>
